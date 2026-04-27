@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Agent UI</title>
+    <base href="/app/" />
+    <link rel="stylesheet" href="./styles.css?v=20260423c" />
+    <script src="./app.js?v=20260423c" defer></script>
+  </head>
+  <body>
+    <div class="page-shell page-shell--chat">
+      <header class="hero">
+        <div class="hero-stack">
+          <p class="hero-title hero-title--chat">MEMORY-AUGMENTED AGENT</p>
+        </div>
+        <div class="hero-actions hero-actions--single">
+          <a href="/app/memory.html" class="hero-link">Open Memory Console</a>
+        </div>
+      </header>
+
+      <main class="layout layout--single">
+        <section class="panel panel-chat panel-chat--wide">
+          <div class="panel-header">
+            <div>
+              <p class="panel-kicker">Chat</p>
+              <h2>对话区</h2>
+            </div>
+            <button id="clear-chat" class="ghost-button" type="button">清空记录</button>
+          </div>
+
+          <div id="chat-log" class="chat-log">
+            <section id="chat-empty-state" class="chat-empty-state">
+              <p class="chat-empty-label">Ready</p>
+              <h3>开始一轮新的对话</h3>
+              <p class="chat-empty-copy">
+                输入问题后，系统会返回回答，并在后台完成规划、检索与记忆更新。
+              </p>
+            </section>
+          </div>
+
+          <form id="chat-form" class="chat-form">
+            <label class="sr-only" for="query-input">用户问题</label>
+            <textarea
+              id="query-input"
+              name="query"
+              rows="4"
+              placeholder="例如：我最近在准备后端开发面试，帮我整理下一步计划。"
+              required
+            ></textarea>
+            <div class="chat-form-footer">
+              <p id="form-hint" class="form-hint">按 Enter 发送，Shift + Enter 换行</p>
+              <button id="send-button" type="submit">发送</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

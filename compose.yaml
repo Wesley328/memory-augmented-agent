@@ -1,0 +1,19 @@
+services:
+  memory-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: memory-agent
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      MEMORY_STORE_BACKEND: sqlite
+      MEMORY_SQLITE_PATH: /app/data/memory_agent.db
+    volumes:
+      - memory_agent_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  memory_agent_data:

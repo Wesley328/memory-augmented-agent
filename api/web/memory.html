@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Console</title>
+    <base href="/app/" />
+    <link rel="stylesheet" href="./styles.css?v=20260423d" />
+    <script src="./memory.js?v=20260423d" defer></script>
+  </head>
+  <body>
+    <div class="page-shell page-shell--memory">
+      <header class="hero">
+        <div class="hero-stack">
+          <p class="hero-title">MEMORY CONSOLE</p>
+        </div>
+        <div class="hero-actions hero-actions--single">
+          <a href="/app" class="hero-link">Back To Chat</a>
+        </div>
+      </header>
+
+      <section class="memory-stats">
+        <article class="metric-card metric-card--console">
+          <p class="metric-label">Total</p>
+          <p id="stat-total" class="metric-value">--</p>
+          <p class="metric-subvalue">全部 memory 数量</p>
+        </article>
+        <article class="metric-card metric-card--console">
+          <p class="metric-label">Active</p>
+          <p id="stat-active" class="metric-value">--</p>
+          <p class="metric-subvalue">当前 active memories</p>
+        </article>
+        <article class="metric-card metric-card--console">
+          <p class="metric-label">Summary</p>
+          <p id="stat-summary" class="metric-value">--</p>
+          <p class="metric-subvalue">摘要记忆数量</p>
+        </article>
+        <article class="metric-card metric-card--console">
+          <p class="metric-label">Superseded</p>
+          <p id="stat-superseded" class="metric-value">--</p>
+          <p class="metric-subvalue">已被替代的版本数</p>
+        </article>
+      </section>
+
+      <main class="memory-console-grid">
+        <div class="console-main-column">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="panel-kicker">Memory</p>
+                <h2>记忆面板</h2>
+              </div>
+              <button id="refresh-memories" class="ghost-button" type="button">刷新</button>
+            </div>
+            <div class="memory-controls">
+              <div class="filter-grid">
+                <label class="select-field">
+                  <span>status</span>
+                  <select id="memory-status-filter" name="status">
+                    <option value="">all</option>
+                    <option value="active">active</option>
+                    <option value="superseded">superseded</option>
+                  </select>
+                </label>
+                <label class="select-field">
+                  <span>type</span>
+                  <select id="memory-type-filter" name="memory_type">
+                    <option value="">all</option>
+                    <option value="fact">fact</option>
+                    <option value="preference">preference</option>
+                    <option value="event">event</option>
+                    <option value="user_profile">user_profile</option>
+                    <option value="history">history</option>
+                    <option value="summary">summary</option>
+                  </select>
+                </label>
+              </div>
+              <div class="filter-actions">
+                <label class="toggle-row" for="memory-summary-only">
+                  <input id="memory-summary-only" type="checkbox" />
+                  <span>summary-only</span>
+                </label>
+                <button id="reset-memory-filters" class="ghost-button" type="button">
+                  重置筛选
+                </button>
+              </div>
+            </div>
+            <div id="memory-summary" class="memory-summary">
+              <p class="muted">正在加载 memories...</p>
+            </div>
+            <div id="memory-list" class="memory-list memory-list--console"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="panel-kicker">Trace / Observability</p>
+                <h2>轮次追踪面板</h2>
+              </div>
+              <button id="refresh-traces" class="ghost-button" type="button">刷新 Trace</button>
+            </div>
+            <div class="memory-controls trace-controls">
+              <div class="filter-grid">
+                <label class="select-field">
+                  <span>route</span>
+                  <select id="trace-route-filter" name="trace_route">
+                    <option value="">all</option>
+                    <option value="general">general</option>
+                    <option value="preference">preference</option>
+                    <option value="temporal">temporal</option>
+                    <option value="profile">profile</option>
+                    <option value="planning">planning</option>
+                  </select>
+                </label>
+                <label class="select-field">
+                  <span>action</span>
+                  <select id="trace-action-filter" name="planner_action">
+                    <option value="">all</option>
+                    <option value="direct_answer">direct_answer</option>
+                    <option value="tool_then_answer">tool_then_answer</option>
+                    <option value="clarify_then_wait">clarify_then_wait</option>
+                  </select>
+                </label>
+              </div>
+              <div class="filter-actions">
+                <p class="muted trace-inline-note">按轮次查看 planner、self-check 与 memory lifecycle。</p>
+                <button id="reset-trace-filters" class="ghost-button" type="button">
+                  重置 Trace 筛选
+                </button>
+              </div>
+            </div>
+            <div id="trace-summary" class="memory-summary">
+              <p class="muted">正在加载 turn traces...</p>
+            </div>
+            <div id="trace-list" class="trace-list"></div>
+          </section>
+        </div>
+
+        <aside class="inspector-column">
+          <section class="panel">
+            <div class="lineage-panel">
+              <div class="lineage-header">
+                <div>
+                  <p class="panel-kicker">Lineage</p>
+                  <h3>版本链查看</h3>
+                </div>
+                <button id="clear-lineage" class="ghost-button" type="button">清空</button>
+              </div>
+              <div id="lineage-summary" class="memory-summary">
+                <p class="muted">点击某条 memory 上的 “View lineage” 按钮查看版本链。</p>
+              </div>
+              <div id="lineage-list" class="lineage-list"></div>
+            </div>
+            <div class="lineage-panel">
+              <div class="lineage-header">
+                <div>
+                  <p class="panel-kicker">Summary Sources</p>
+                  <h3>摘要来源查看</h3>
+                </div>
+                <button id="clear-sources" class="ghost-button" type="button">清空</button>
+              </div>
+              <div id="source-summary" class="memory-summary">
+                <p class="muted">点击 summary memory 上的 “View sources” 按钮查看它由哪些原子记忆派生而来。</p>
+              </div>
+              <div id="source-list" class="lineage-list"></div>
+            </div>
+            <div class="lineage-panel">
+              <div class="lineage-header">
+                <div>
+                  <p class="panel-kicker">Metadata Drill-down</p>
+                  <h3>记忆详情查看</h3>
+                </div>
+                <button id="clear-detail" class="ghost-button" type="button">清空</button>
+              </div>
+              <div id="detail-summary" class="memory-summary">
+                <p class="muted">点击任意 memory 的 “View detail” 按钮，查看它的 metadata 细节。</p>
+              </div>
+              <div id="detail-body" class="detail-panel"></div>
+            </div>
+            <div class="lineage-panel">
+              <div class="lineage-header">
+                <div>
+                  <p class="panel-kicker">Turn Trace Inspector</p>
+                  <h3>轮次追踪查看</h3>
+                </div>
+                <button id="clear-trace-detail" class="ghost-button" type="button">清空</button>
+              </div>
+              <div id="trace-detail-summary" class="memory-summary">
+                <p class="muted">在左侧 Trace 面板中选择任意轮次，查看 planner、self-check、retrieval 与 memory lifecycle 细节。</p>
+              </div>
+              <div id="trace-detail-body" class="detail-panel"></div>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+{
+  "memory_bank": [
+    {
+      "id": "m1",
+      "content": "User likes Japanese food and often orders sushi for dinner.",
+      "type": "preference",
+      "importance": 0.95,
+      "timestamp": "2026-04-08T19:00:00+00:00",
+      "tags": ["food", "preference"]
+    },
+    {
+      "id": "m2",
+      "content": "User likes sushi, especially salmon nigiri.",
+      "type": "preference",
+      "importance": 0.92,
+      "timestamp": "2026-04-09T12:00:00+00:00",
+      "tags": ["food", "preference"]
+    },
+    {
+      "id": "m3",
+      "content": "User is allergic to peanuts.",
+      "type": "fact",
+      "importance": 1.0,
+      "timestamp": "2026-04-01T08:00:00+00:00",
+      "tags": ["health", "constraint"]
+    },
+    {
+      "id": "m4",
+      "content": "User visited Hangzhou last weekend for a short vacation.",
+      "type": "event",
+      "importance": 0.74,
+      "timestamp": "2026-04-12T06:00:00+00:00",
+      "tags": ["travel", "event"]
+    },
+    {
+      "id": "m5",
+      "content": "User has an interview with a robotics startup on Friday morning.",
+      "type": "event",
+      "importance": 0.88,
+      "timestamp": "2026-04-11T09:00:00+00:00",
+      "tags": ["career", "event"]
+    },
+    {
+      "id": "m6",
+      "content": "User is a computer science student interested in multi-agent systems.",
+      "type": "user_profile",
+      "importance": 0.86,
+      "timestamp": "2026-03-20T10:00:00+00:00",
+      "tags": ["profile", "career"]
+    },
+    {
+      "id": "m7",
+      "content": "User prefers concise explanations with concrete examples.",
+      "type": "preference",
+      "importance": 0.84,
+      "timestamp": "2026-04-07T14:00:00+00:00",
+      "tags": ["communication", "preference"]
+    },
+    {
+      "id": "m8",
+      "content": "User said yesterday that they want to practice retrieval evaluation before adding more infrastructure.",
+      "type": "history",
+      "importance": 0.72,
+      "timestamp": "2026-04-12T13:00:00+00:00",
+      "tags": ["project", "history"]
+    }
+  ],
+  "cases": [
+    {
+      "id": "c1",
+      "query": "Recommend a dinner idea for me.",
+      "relevant_memory_ids": ["m1", "m2"],
+      "top_k": 3,
+      "notes": "Food recommendation should recall preference memories."
+    },
+    {
+      "id": "c2",
+      "query": "What should I remember about my allergy?",
+      "relevant_memory_ids": ["m3"],
+      "top_k": 3,
+      "notes": "Critical factual constraint."
+    },
+    {
+      "id": "c3",
+      "query": "What recent trip did I mention?",
+      "relevant_memory_ids": ["m4"],
+      "top_k": 3,
+      "notes": "Recent event retrieval."
+    },
+    {
+      "id": "c4",
+      "query": "Summarize my background for interview prep.",
+      "relevant_memory_ids": ["m5", "m6"],
+      "top_k": 4,
+      "notes": "Career profile and upcoming interview should both surface."
+    },
+    {
+      "id": "c5",
+      "query": "How do I prefer responses to be written?",
+      "relevant_memory_ids": ["m7"],
+      "top_k": 3,
+      "notes": "Communication preference."
+    }
+  ]
+}
